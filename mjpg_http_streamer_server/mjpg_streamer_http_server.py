@@ -19,7 +19,7 @@ class CamHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         if self.path.endswith('.mjpg'):
             self.send_response(200)
-            self.send_header('Content-type', 'multipart/x-mixed-replace; boundary=--jpgboundary')
+            self.send_header('Content-type', 'multipart/x-mixed-replace; boundary=jpgboundary')
             self.end_headers()
             global to_exit
             while not to_exit:
@@ -29,7 +29,7 @@ class CamHandler(BaseHTTPRequestHandler):
                 imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
                 jpg = Image.fromarray(imgRGB)
                 jpg_bytes = jpg.tobytes()
-                self.wfile.write(str.encode("--jpgboundary"))
+                self.wfile.write(str.encode("\r\n--jpgboundary\r\n"))
                 self.send_header('Content-type', 'image/jpeg')
                 self.send_header('Content-length', len(jpg_bytes))
                 self.end_headers()
