@@ -16,7 +16,7 @@ class CamHandler(BaseHTTPRequestHandler):
 	def do_GET(self):
 		if self.path.endswith('.mjpg'):
 			self.send_response(200)
-			self.send_header('Content-type','multipart/x-mixed-replace; boundary=--jpgboundary')
+			self.send_header('Content-type','multipart/x-mixed-replace; boundary=jpgboundary')
 			self.end_headers()
 			while True:
 				try:
@@ -27,7 +27,7 @@ class CamHandler(BaseHTTPRequestHandler):
 					jpg = Image.fromarray(imgRGB)
 					tmpFile = StringIO.StringIO()
 					jpg.save(tmpFile,'JPEG')
-					self.wfile.write("--jpgboundary")
+					self.wfile.write("\r\n--jpgboundary\r\n")
 					self.send_header('Content-type','image/jpeg')
 					self.send_header('Content-length',str(tmpFile.len))
 					self.end_headers()
