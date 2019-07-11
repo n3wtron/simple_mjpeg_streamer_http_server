@@ -9,7 +9,7 @@ with open(path.join(here, 'README.md'), encoding='utf-8') as f:
 
 setup(
     name='simple_mjpeg_streamer_http_server',
-    version='1.0.0',
+    version='2.0.0',
     description='Simple python mjpeg streamer http server',
     url='https://github.com/n3wtron/simple_mjpeg_streamer_http_server',
     author='Igor Maculan',
@@ -20,7 +20,6 @@ setup(
         'Topic :: Internet :: WWW/HTTP',
         'Topic :: Multimedia :: Video :: Capture'
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
     ],
     keywords='mjpg stream http server',

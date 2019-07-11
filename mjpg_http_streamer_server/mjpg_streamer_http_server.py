@@ -6,9 +6,9 @@
 import cv2
 from PIL import Image
 import threading
-from BaseHTTPServer import BaseHTTPRequestHandler,HTTPServer
-from SocketServer import ThreadingMixIn
-import StringIO
+from  http.server import BaseHTTPRequestHandler,HTTPServer
+from socketserver import ThreadingMixIn
+from io import StringIO
 import time
 capture=None
 
@@ -25,11 +25,12 @@ class CamHandler(BaseHTTPRequestHandler):
 						continue
 					imgRGB=cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
 					jpg = Image.fromarray(imgRGB)
-					tmpFile = StringIO.StringIO()
+					# tmpFile = StringIO.StringIO() # python2
+					tmpFile = 'tempfile' # StringIO()
 					jpg.save(tmpFile,'JPEG')
-					self.wfile.write("\r\n--jpgboundary\r\n")
+					self.wfile.write("\r\n--jpgboundary\r\n".encode())
 					self.send_header('Content-type','image/jpeg')
-					self.send_header('Content-length',str(tmpFile.len))
+					self.send_header('Content-length',str(len(tmpFile)))
 					self.end_headers()
 					jpg.save(self.wfile,'JPEG')
 					time.sleep(0.05)
@@ -55,7 +56,7 @@ def main():
 	global img
 	try:
 		server = ThreadedHTTPServer(('0.0.0.0', 8080), CamHandler)
-		print "server started"
+		print("server started")
 		server.serve_forever()
 	except KeyboardInterrupt:
 		capture.release()
